@@ -14,7 +14,7 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
-    @PostMapping("/book")
+    @PostMapping("/book")  //test
     public ResponseEntity<String> bookShow(@RequestBody BookingDTO bookingDTO) {
         try {
             bookingService.bookShow(bookingDTO);
@@ -24,7 +24,7 @@ public class BookingController {
         }
     }
 
-    @PostMapping("/cancel/{bookingId}")
+    @PostMapping("/cancel/{bookingId}")  //test
     public ResponseEntity<String> cancelBooking(@PathVariable String bookingId) {
         try {
             bookingService.cancelBooking(bookingId);

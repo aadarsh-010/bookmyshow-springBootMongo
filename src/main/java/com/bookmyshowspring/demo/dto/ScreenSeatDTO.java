@@ -17,6 +17,13 @@ public class ScreenSeatDTO {
         this.seatTypeAndCount = seatTypeAndCount;
         this.id=id;
     }
+    public ScreenSeatDTO(int totalSeats, HashMap<SeatType, Integer> seatTypeAndCount){
+        this.totalSeats = totalSeats;
+        this.seatTypeAndCount = seatTypeAndCount;
+
+    }
+    public ScreenSeatDTO(){
+    }
 
 
     public String getId() {

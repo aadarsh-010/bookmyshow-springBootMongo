@@ -9,8 +9,8 @@ import com.bookmyshowspring.demo.event.TheaterDeletedEvent;
 import com.bookmyshowspring.demo.models.user.Creator;
 import com.bookmyshowspring.demo.models.user.Customer;
 import com.bookmyshowspring.demo.models.user.User;
-import com.bookmyshowspring.demo.repository.CreatorRepository;
-import com.bookmyshowspring.demo.repository.CustomerRepository;
+import com.bookmyshowspring.demo.repository.mongo.CreatorMongoRepository;
+import com.bookmyshowspring.demo.repository.mongo.CustomerMongoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
@@ -26,10 +26,10 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    CustomerRepository customerRepo;
+    CustomerMongoRepository customerRepo;
 
     @Autowired
-    CreatorRepository creatorRepo;
+    CreatorMongoRepository creatorRepo;
 
     @Autowired
     ModelMapper modelMapper;
@@ -132,6 +132,3 @@ public class UserService {
 
 
 }
-
-
-

@@ -3,7 +3,7 @@ package com.bookmyshowspring.demo.services;
 
 import com.bookmyshowspring.demo.dto.MovieDTO;
 import com.bookmyshowspring.demo.models.Movie;
-import com.bookmyshowspring.demo.repository.MovieRepository;
+import com.bookmyshowspring.demo.persistence.MoviePersistence;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,8 +16,11 @@ import java.util.Optional;
 @Service
 public class MovieService {
 
+//    @Autowired
+//    MovieMongoRepository movierepo;
+
     @Autowired
-    MovieRepository movierepo;
+    MoviePersistence moviePersist;
 
     private final ApplicationEventPublisher eventPublisher;
 
@@ -31,20 +34,20 @@ public class MovieService {
 
     public MovieDTO createMovie(MovieDTO m1) {
         Movie movie = modelMapper.map(m1, Movie.class);
-        movierepo.saveMovie(movie);
+        moviePersist.save(movie);
         return modelMapper.map(movie, MovieDTO.class);
     }
 
     public void deleteMovie(String movieId) throws Exception {
-        Optional<Movie> movieOptional = movierepo.findById(movieId);
+        Optional<Movie> movieOptional = moviePersist.findById(movieId);
         if (movieOptional.isEmpty()) {throw new Exception("INVALID Movie ID");}
         Movie movie = movieOptional.get();
-        movierepo.deleteById(movie.getId());
+        moviePersist.deleteById(movie.getId());
     }
 
     public void addShowRefToMovie(String showid , String movieid){
-        Movie movie = movierepo.findById(movieid).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie Not Found"));
+        Movie movie = moviePersist.findById(movieid).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie Not Found"));
         movie.getShowsRunningThisMovie().add(showid);
-        movierepo.saveMovie(movie);
+        moviePersist.save(movie);
     }
 }

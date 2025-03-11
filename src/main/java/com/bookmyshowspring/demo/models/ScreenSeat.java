@@ -22,6 +22,14 @@ public class ScreenSeat {
         this.id=id;
     }
 
+    public ScreenSeat(int totalSeats, HashMap<SeatType, Integer> seatTypeAndCount) {
+        this.totalSeats = totalSeats;
+        this.seatTypeAndCount = seatTypeAndCount;
+    }
+    public ScreenSeat() {
+
+    }
+
 
     public String getId() {
         return id;

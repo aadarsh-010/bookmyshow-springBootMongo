@@ -1,13 +1,14 @@
-package com.bookmyshowspring.demo.dto;
-
+package com.bookmyshowspring.demo.models.Indexes;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class MovieDTO {
+
+@Document(indexName = "movieindex")
+public class MovieIndex {
 
     @Id
     private String id;
@@ -18,7 +19,7 @@ public class MovieDTO {
     private ArrayList<String> cast = new ArrayList<>();
     private ArrayList<String> showsRunningThisMovie;
 
-    public MovieDTO(String id, List<String> genre, String title, int duration, String language, ArrayList<String> cast) {
+    public MovieIndex(String id, List<String> genre, String title, int duration, String language, ArrayList<String> cast) {
         this.id = id;
         this.genre = genre;
         this.title = title;
@@ -28,10 +29,8 @@ public class MovieDTO {
         this.showsRunningThisMovie =new ArrayList<>();
 
     }
-
-    public MovieDTO() {
+    public MovieIndex() {
         this.showsRunningThisMovie =new ArrayList<>();
-
     }
 
 

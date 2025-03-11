@@ -25,6 +25,21 @@ public class Screen {
         this.showRef = new ArrayList<>();
     }
 
+    public Screen(String theatreid) {
+        this.theatreid = theatreid;
+        this.showRef = new ArrayList<>();
+
+    }
+
+    public Screen(String theatreid, String screenSeatID) {
+        this.theatreid = theatreid;
+        this.screenSeatID = screenSeatID;
+        this.showRef = new ArrayList<>();
+    }
+    public Screen() {
+        this.showRef = new ArrayList<>();
+    }
+
 
     public List<Show> getScreens() {
         return null;

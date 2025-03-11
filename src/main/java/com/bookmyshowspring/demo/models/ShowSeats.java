@@ -24,6 +24,16 @@ public class ShowSeats {
         PricePerSeatType = pricePerSeatType;
         this.showSeatsRef = new ArrayList<>();
     }
+    public ShowSeats(){}
+    public ShowSeats(String screenseatref, HashMap<SeatType, Integer> pricePerSeatType) {
+        this.screenseatref = screenseatref;
+        PricePerSeatType = pricePerSeatType;
+        this.showSeatsRef = new ArrayList<>();
+    }
+
+    public void setShowSeatsRef(ArrayList<String> showSeatsRef) {
+        this.showSeatsRef = showSeatsRef;
+    }
 
     public String getShowseatsid() {
         return showseatsid;

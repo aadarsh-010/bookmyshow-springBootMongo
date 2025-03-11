@@ -17,7 +17,7 @@ public class Movie {
     private int duration;
     private String language;
     private ArrayList<String> cast = new ArrayList<>();
-    private final ArrayList<String> showsRunningThisMovie=new ArrayList<>();
+    private ArrayList<String> showsRunningThisMovie;
 
     public Movie(String id, List<String> genre, String title, int duration, String language, ArrayList<String> cast) {
         this.id = id;
@@ -26,6 +26,11 @@ public class Movie {
         this.duration = duration;
         this.language = language;
         this.cast = cast;
+        this.showsRunningThisMovie =new ArrayList<>();
+
+    }
+    public Movie() {
+        this.showsRunningThisMovie =new ArrayList<>();
 
     }
 

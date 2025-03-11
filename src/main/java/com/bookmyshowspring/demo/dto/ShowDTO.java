@@ -20,6 +20,23 @@ public class ShowDTO {
         this.showSeatRef = showSeatRef;
     }
 
+    public ShowDTO(String movieId, String theatreId, String screenId, String startTime, String endTime, String showSeatRef) {
+        this.movieId = movieId;
+        this.theatreId = theatreId;
+        this.screenId = screenId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.showSeatRef = showSeatRef;
+    }
+    public ShowDTO(){}
+
+    public ShowDTO(String movieId, String theatreId, String screenId, String startTime, String endTime) {
+        this.movieId = movieId;
+        this.theatreId = theatreId;
+        this.screenId = screenId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 
 
     public String getId() {

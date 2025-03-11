@@ -9,9 +9,9 @@ import com.bookmyshowspring.demo.event.*;
 import com.bookmyshowspring.demo.models.Seat;
 import com.bookmyshowspring.demo.models.Show;
 import com.bookmyshowspring.demo.models.ShowSeats;
-import com.bookmyshowspring.demo.repository.SeatRepository;
-import com.bookmyshowspring.demo.repository.ShowRepository;
-import com.bookmyshowspring.demo.repository.ShowSeatRepository;
+import com.bookmyshowspring.demo.repository.mongo.SeatMongoRepository;
+import com.bookmyshowspring.demo.repository.mongo.ShowMongoRepository;
+import com.bookmyshowspring.demo.repository.mongo.ShowSeatMongoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -26,26 +26,24 @@ public class ShowService {
 
     private final ApplicationEventPublisher eventPublisher;
     @Autowired
-    ShowRepository showrepo;
+    ShowMongoRepository showrepo;
     @Autowired
-    ShowSeatRepository showseatrepo;
+    ShowSeatMongoRepository showseatrepo;
     @Autowired
     MovieService movieService;
     @Autowired
     ModelMapper modelMapper;
     @Autowired
-    private SeatRepository seatrepo;
+    private SeatMongoRepository seatrepo;
     @Autowired
     public ShowService(ApplicationEventPublisher eventPublisher) {
         this.eventPublisher = eventPublisher;
     }
 
 
-    public void addshowSeatsRef(String id, String newGeneratedId) throws Exception {
-        Show show = showrepo.findById(id).orElseThrow(() -> new RuntimeException("show id wrong not found !!"));
-        ShowSeats showseats = showseatrepo.findById(show.getId()).orElseThrow(() -> new RuntimeException("showseat id wrong not found !!"));
-        showseats.setShowSeatsRef(newGeneratedId);
-        showseatrepo.saveShowSeat(showseats);
+    public void addshowSeatsRef(ShowSeats showSeats, String newGeneratedId) throws Exception {
+        showSeats.setShowSeatsRef(newGeneratedId);
+        showseatrepo.saveShowSeat(showSeats);
     }
 
     public Seat addSeatToSeatRepo(Seat obj) {
@@ -54,13 +52,15 @@ public class ShowService {
     }
 
     public ShowDTO CreateShow(ShowDTO showdto , ShowSeatsDTO showSeatdto) {
-        Show show = modelMapper.map(showdto, Show.class);
-        ShowSeats showseats = modelMapper.map(showSeatdto,ShowSeats.class);
-        show.setShowSeatRef(showseats.getShowseatsid());
-        eventPublisher.publishEvent(new ShowAddInScreenEvent(show.getId(),show.getScreenId()));
-        eventPublisher.publishEvent(new ShowAddInTheaterEvent(show.getId(),show.getScreenId()));
-        showseatrepo.saveShowSeat(showseats);
+
+        ShowSeats showseats = new ShowSeats(showSeatdto.getScreenseatref(),showSeatdto.getPricePerSeatType());
+        ShowSeats showSeats = showseatrepo.saveShowSeat(showseats);
+        Show show = new Show(showdto.getMovieId(),showdto.getTheatreId(),showdto.getScreenId(),showdto.getStartTime(),showdto.getEndTime(),showSeats.getShowseatsid());
         Show showNew = showrepo.saveShow(show);
+        System.out.println("zcs");
+        eventPublisher.publishEvent(new ShowAddInScreenEvent(show.getId(),show.getScreenId()));
+        eventPublisher.publishEvent(new ShowAddInTheaterEvent(show.getId(),show.getTheatreId()));
+        System.out.println("yha tk sort");
         generateSeats(show,showseats);
         addShowRefToMovie(show.getId(), show.getMovieId());
         return modelMapper.map( showNew,ShowDTO.class);

@@ -1,4 +1,4 @@
-package com.bookmyshowspring.demo.repository;
+package com.bookmyshowspring.demo.repository.mongo;
 
 import com.bookmyshowspring.demo.models.user.Creator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,23 +13,23 @@ import java.util.Optional;
 
 
 @Repository
-public class CreatorRepository {
+public class CreatorMongoRepository {
 
     private final MongoTemplate mongoTemplate;
 
     @Autowired
-    public CreatorRepository(MongoTemplate mongoTemplate) {
+    public CreatorMongoRepository(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 
 
     public Creator saveCreator(Creator creator) {
-       return  mongoTemplate.insert(creator);
+       return  mongoTemplate.save(creator);
     }
 
 
     public Optional<Creator> findById(String id) {
-        Query query = new Query(Criteria.where("id").is(id));
+        Query query = new Query(Criteria.where("_id").is(id));
         return Optional.ofNullable(mongoTemplate.findOne(query, Creator.class));
     }
 
@@ -40,7 +40,7 @@ public class CreatorRepository {
 
 
     public void updateCreator(String id, Creator creator) {
-        Query query = new Query(Criteria.where("id").is(id));
+        Query query = new Query(Criteria.where("_id").is(id));
         Update update = new Update()
                 .set("name", creator.getName())
                 .set("email", creator.getEmail());
@@ -49,7 +49,7 @@ public class CreatorRepository {
 
 
     public void deleteById(String id) {
-        Query query = new Query(Criteria.where("id").is(id));
+        Query query = new Query(Criteria.where("_id").is(id));
         mongoTemplate.remove(query, Creator.class);
     }
 }

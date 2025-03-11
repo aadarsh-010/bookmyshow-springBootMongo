@@ -24,6 +24,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.modelmapper:modelmapper:2.1.1")
 	compileOnly("org.projectlombok:lombok:1.18.36")
+	implementation("co.elastic.clients:elasticsearch-java:7.17.14")
+	implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch:2.7.14")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.15.3")
+
 
 
 }

@@ -18,7 +18,6 @@ public class TheaterController {
 
     @PostMapping
     public ResponseEntity<String> createTheater(@RequestBody TheatreDTO theatreDTO) {
-        System.out.println("asff");
         try {
             System.out.println("asff");
             theaterService.CreateTheater(theatreDTO);
@@ -41,6 +40,7 @@ public class TheaterController {
     @GetMapping("/{theaterId}")
     public ResponseEntity<Theatre> getTheater(@PathVariable String theaterId) {
         try {
+            System.out.println("pehla");
             Theatre theatre = theaterService.getTheatreEvent(theaterId);
             return ResponseEntity.ok(theatre);
         } catch (Exception e) {

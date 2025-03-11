@@ -1,4 +1,4 @@
-package com.bookmyshowspring.demo.repository;
+package com.bookmyshowspring.demo.repository.mongo;
 
 import com.bookmyshowspring.demo.models.user.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,22 +12,22 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class CustomerRepository {
+public class CustomerMongoRepository {
 
     private final MongoTemplate mongoTemplate;
 
     @Autowired
-    public CustomerRepository(MongoTemplate mongoTemplate) {
+    public CustomerMongoRepository(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 
     public Customer saveCustomer(Customer customer) {
-        return mongoTemplate.insert(customer);
+        return mongoTemplate.save(customer);
     }
 
 
     public Optional<Customer> findById(String id) {
-        Query query = new Query(Criteria.where("id").is(id));
+        Query query = new Query(Criteria.where("_id").is(id));
         return Optional.ofNullable(mongoTemplate.findOne(query, Customer.class));
     }
 
@@ -38,7 +38,7 @@ public class CustomerRepository {
 
 
     public void updateCustomer(String id, Customer customer) {
-        Query query = new Query(Criteria.where("id").is(id));
+        Query query = new Query(Criteria.where("_id").is(id));
         Update update = new Update()
                 .set("name", customer.getName())
                 .set("email", customer.getEmail())
@@ -47,7 +47,7 @@ public class CustomerRepository {
     }
 
     public void deleteById(String id) {
-        Query query = new Query(Criteria.where("id").is(id));
+        Query query = new Query(Criteria.where("_id").is(id));
         mongoTemplate.remove(query, Customer.class);
     }
 }

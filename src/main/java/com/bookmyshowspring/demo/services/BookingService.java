@@ -6,8 +6,8 @@ import com.bookmyshowspring.demo.enums.SeatBookingStatus;
 import com.bookmyshowspring.demo.event.BookingCreatedEvent;
 import com.bookmyshowspring.demo.models.Booking;
 import com.bookmyshowspring.demo.models.Seat;
-import com.bookmyshowspring.demo.repository.BookingRepository;
-import com.bookmyshowspring.demo.repository.SeatRepository;
+import com.bookmyshowspring.demo.repository.mongo.BookingMongoRepository;
+import com.bookmyshowspring.demo.repository.mongo.SeatMongoRepository;
 import com.bookmyshowspring.demo.services.paymentservice.CreditCard;
 import com.bookmyshowspring.demo.services.paymentservice.DebitCard;
 import com.bookmyshowspring.demo.services.paymentservice.PaymentService;
@@ -26,10 +26,10 @@ public class BookingService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    private BookingRepository bookingRepo;
+    private BookingMongoRepository bookingRepo;
 
     @Autowired
-    private SeatRepository seatRepo;
+    private SeatMongoRepository seatRepo;
 
     private static int bookingID = 1000;
 

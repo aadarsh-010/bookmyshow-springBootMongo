@@ -27,6 +27,17 @@ public class Show {
         this.showSeatRef = showSeatRef;
     }
 
+    public Show(String movieId, String theatreId, String screenId, String startTime, String endTime, String showSeatRef) {
+        this.movieId = movieId;
+        this.theatreId = theatreId;
+        this.screenId = screenId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.showSeatRef = showSeatRef;
+    }
+    public Show(){}
+
+
 
 
     public String getId() {

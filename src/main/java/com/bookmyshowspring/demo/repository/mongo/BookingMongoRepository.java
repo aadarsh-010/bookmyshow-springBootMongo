@@ -1,4 +1,4 @@
-package com.bookmyshowspring.demo.repository;
+package com.bookmyshowspring.demo.repository.mongo;
 
 import com.bookmyshowspring.demo.models.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,22 +11,22 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class BookingRepository {
+public class BookingMongoRepository {
 
     private final MongoTemplate mongoTemplate;
 
     @Autowired
-    public BookingRepository(MongoTemplate mongoTemplate) {
+    public BookingMongoRepository(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 
     public Booking saveBooking(Booking booking) {
-        return mongoTemplate.insert(booking);
+        return mongoTemplate.save(booking);
     }
 
 
     public Optional<Booking> findById(String id) {
-        Query query = new Query(Criteria.where("id").is(id));
+        Query query = new Query(Criteria.where("_id").is(id));
         return Optional.ofNullable(mongoTemplate.findOne(query, Booking.class));
     }
 
@@ -36,7 +36,7 @@ public class BookingRepository {
 
 
     public void deleteById(String id) {
-        Query query = new Query(Criteria.where("id").is(id));
+        Query query = new Query(Criteria.where("_id").is(id));
         mongoTemplate.remove(query, Booking.class);
     }
 }

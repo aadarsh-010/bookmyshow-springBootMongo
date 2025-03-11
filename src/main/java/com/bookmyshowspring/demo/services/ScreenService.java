@@ -7,8 +7,8 @@ import com.bookmyshowspring.demo.enums.SeatBookingStatus;
 import com.bookmyshowspring.demo.enums.SeatType;
 import com.bookmyshowspring.demo.event.*;
 import com.bookmyshowspring.demo.models.*;
-import com.bookmyshowspring.demo.repository.ScreenRepository;
-import com.bookmyshowspring.demo.repository.ScreenSeatRepository;
+import com.bookmyshowspring.demo.repository.mongo.ScreenMongoRepository;
+import com.bookmyshowspring.demo.repository.mongo.ScreenSeatMongoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -25,11 +25,11 @@ public class ScreenService {
 
     private final ApplicationEventPublisher eventPublisher;
     @Autowired
-    ScreenRepository screenrepo;
+    ScreenMongoRepository screenrepo;
     @Autowired
     ModelMapper modelMapper;
     @Autowired
-    private ScreenSeatRepository screenSeatRepo;
+    private ScreenSeatMongoRepository screenSeatRepo;
     @Autowired
     private ShowService showService;
 
@@ -43,9 +43,7 @@ public class ScreenService {
 
     public ScreenSeatDTO CreateScreenSeats(ScreenSeatDTO screenseatdto) {
 
-        ScreenSeat screenseat = modelMapper.map(screenseatdto, ScreenSeat.class);
-
-
+        ScreenSeat screenseat = new ScreenSeat(screenseatdto.getTotalSeats(),screenseatdto.getSeatTypeAndCount());
         screenSeatRepo.saveScreenSeat(screenseat);
         return modelMapper.map(screenseat, ScreenSeatDTO.class);
 
@@ -53,16 +51,19 @@ public class ScreenService {
     }
 
     public ScreenDTO CreateScreen(ScreenDTO screendto) {
-        Screen screen = modelMapper.map(screendto, Screen.class);
+        Screen screen = new Screen(screendto.getTheatreid(),screendto.getScreenSeatID());
         screenrepo.saveScreen(screen);
         addScreenToTheatre(screen.getTheatreid(),screen.getId());
         return modelMapper.map(screen, ScreenDTO.class);
     }
 
     public ScreenSeat getScreenSeat(String screenid) throws Exception {
-        Screen screen = screenrepo.findById(screenid)
-                .orElseThrow(() -> new Exception("Screen not found"));
-
+        System.out.println(screenid);
+        Optional<Screen> screenOptional = Optional.ofNullable(screenrepo.findById(screenid)
+                .orElseThrow(() -> new Exception("Screen not found")));
+        System.out.println(screenOptional.isEmpty());
+        System.out.println("QWE");
+        Screen screen = screenOptional.get();
         return screenSeatRepo.findById(screen.getScreenSeatID())
                 .orElseThrow(() -> new Exception("screenSeat not found"));
     }
@@ -110,7 +111,8 @@ public class ScreenService {
     public void handleSeatCreationEvent(SeatCreationEvent event) throws Exception {
         Show show= event.getShow();
         ShowSeats showSeats = event.getShowSeats();
-        Optional<ScreenSeat> screenSeatOptional = screenSeatRepo.findById(show.getShowSeatRef());
+        System.out.println(showSeats.getScreenseatref());
+        Optional<ScreenSeat> screenSeatOptional = screenSeatRepo.findById(showSeats.getScreenseatref());
         if (screenSeatOptional.isEmpty()) {
             throw new Exception("INVALID shows eat ID");
         }
@@ -119,7 +121,7 @@ public class ScreenService {
             for (int i = 0; i < mapElement.getValue(); i++) {
                 Seat obj = new Seat(SeatBookingStatus.Open,mapElement.getKey(),show.getId(),showSeats.getPricePerSeatType().get(mapElement.getKey()));
                 String newGeneratedId = showService.addSeatToSeatRepo(obj).getId();
-                showService.addshowSeatsRef(show.getId(),newGeneratedId);
+                showService.addshowSeatsRef(showSeats,newGeneratedId);
             }
         }
     }

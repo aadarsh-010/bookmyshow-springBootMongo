@@ -18,6 +18,12 @@ public class ShowSeatsDTO {
         PricePerSeatType = pricePerSeatType;
         this.showSeatsRef = new ArrayList<>();
     }
+    public ShowSeatsDTO(){}
+    public ShowSeatsDTO(String screenseatref, HashMap<SeatType, Integer> pricePerSeatType) {
+        this.screenseatref = screenseatref;
+        PricePerSeatType = pricePerSeatType;
+        this.showSeatsRef = new ArrayList<>();
+    }
 
     public String getShowseatsid() {
         return showseatsid;

@@ -4,7 +4,7 @@ package com.bookmyshowspring.demo.services;
 import com.bookmyshowspring.demo.dto.TheatreDTO;
 import com.bookmyshowspring.demo.event.*;
 import com.bookmyshowspring.demo.models.Theatre;
-import com.bookmyshowspring.demo.repository.TheatreRepository;
+import com.bookmyshowspring.demo.repository.mongo.TheatreMongoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class TheaterService {
 
     @Autowired
-    TheatreRepository theaterRepo;
+    TheatreMongoRepository theaterRepo;
 
     @Autowired
     ModelMapper modelMapper;

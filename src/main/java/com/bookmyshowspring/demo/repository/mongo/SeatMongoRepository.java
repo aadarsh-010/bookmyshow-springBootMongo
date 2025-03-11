@@ -1,4 +1,4 @@
-package com.bookmyshowspring.demo.repository;
+package com.bookmyshowspring.demo.repository.mongo;
 
 import com.bookmyshowspring.demo.models.Seat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +11,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class SeatRepository {
+public class SeatMongoRepository {
 
     private final MongoTemplate mongoTemplate;
 
     @Autowired
-    public SeatRepository(MongoTemplate mongoTemplate) {
+    public SeatMongoRepository(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 
     public Seat saveSeat(Seat seat) {
-        return mongoTemplate.insert(seat);
+        return mongoTemplate.save(seat);
     }
     public void saveAllSeats(List<Seat> seats) {
         mongoTemplate.insertAll(seats);
@@ -29,18 +29,18 @@ public class SeatRepository {
 
 
     public Optional<Seat> findById(String id) {
-        Query query = new Query(Criteria.where("id").is(id));
+        Query query = new Query(Criteria.where("_id").is(id));
         return Optional.ofNullable(mongoTemplate.findOne(query, Seat.class));
     }
 
     public List<Seat> findAllByIds(List<String> seatRefs) {
-        Query query = new Query(Criteria.where("id").in(seatRefs));
+        Query query = new Query(Criteria.where("_id").in(seatRefs));
         return mongoTemplate.find(query, Seat.class);
     }
 
 
     public void deleteById(String id) {
-        Query query = new Query(Criteria.where("id").is(id));
+        Query query = new Query(Criteria.where("_id").is(id));
         mongoTemplate.remove(query, Seat.class);
     }
 }

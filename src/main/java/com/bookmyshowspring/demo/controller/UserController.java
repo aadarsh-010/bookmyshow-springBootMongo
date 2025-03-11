@@ -22,7 +22,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id) {
-        System.out.println("heelooo");
+        System.out.println("- "+ id);
         try {
             userService.deleteUser(id);
             return ResponseEntity.ok("User deleted successfully.");
@@ -41,7 +41,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}/bookings")
+    @GetMapping("/{id}/bookings")  //test
     public ResponseEntity<?> getBookings(@PathVariable String id) {
         try {
             return ResponseEntity.ok(userService.getBookings(id));
@@ -50,7 +50,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{userId}/bookings/{bookingId}")
+    @DeleteMapping("/{userId}/bookings/{bookingId}")  //test
     public ResponseEntity<String> removeUserBookings(@PathVariable String userId, @PathVariable String bookingId) {
         try {
             userService.removeUserBookings(userId, bookingId);
