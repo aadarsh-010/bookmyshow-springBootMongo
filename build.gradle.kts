@@ -1,0 +1,38 @@
+plugins {
+	java
+	id("org.springframework.boot") version "2.7.14"
+	id("io.spring.dependency-management") version "1.1.7"
+}
+
+group = "com.bookmyshowspring"
+version = "0.0.1-SNAPSHOT"
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(11)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+	implementation("org.modelmapper:modelmapper:2.1.1")
+	compileOnly("org.projectlombok:lombok:1.18.36")
+	implementation("co.elastic.clients:elasticsearch-java:7.17.14")
+	implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch:2.7.14")
+	implementation("com.fasterxml.jackson.core:jackson-databind:2.15.3")
+	implementation("org.springframework.kafka:spring-kafka:2.9.13")
+
+
+
+}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
+}
